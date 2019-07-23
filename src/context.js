@@ -21,7 +21,7 @@ export class Provider extends Component{
 
     state = {
         track_list: [],
-        heading: 'top 10 tracks',
+        heading: 'Top 10 tracks',
         dispatch: action => this.setState(state => reducer(state, action))
     };
 

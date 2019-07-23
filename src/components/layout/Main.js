@@ -2,7 +2,7 @@ import React from 'react';
 import Tracks from '../tracks/Tracks';
 import Search from '../tracks/Search';
 
-const index = () => {
+const Main = () => {
     return (
         <>
             <Search/>
@@ -11,4 +11,4 @@ const index = () => {
     );
 };
 
-export default index;
+export default Main;

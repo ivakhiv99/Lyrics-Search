@@ -2,7 +2,7 @@ import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 
 import Navbar from './components/layout/Navbar';
-import Index from './components/layout/Index';
+import Main from './components/layout/Main';
 import Lyrics from './components/tracks/Lyrics';
 
 import {Provider} from './context';
@@ -15,10 +15,12 @@ function App() {
             <BrowserRouter>
                 <>
                     <Navbar/>
-                    <Switch>
-                        <Route exact path='/' component={Index}/>
-                        <Route path='/lyrics/track/:id' component={Lyrics}/>
-                    </Switch>
+                    <div className="container">
+                        <Switch>
+                            <Route exact path='/' component={Main}/>
+                            <Route path='/lyrics/track/:id' component={Lyrics}/>
+                        </Switch>
+                    </div>
                 </>
             </BrowserRouter>
         </Provider>
