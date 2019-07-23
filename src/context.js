@@ -1,8 +1,7 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import {API_KEY, API_ROOT_URL, CORS_PROXY} from './consts';
 
 export const Context = React.createContext();
-
 
 const reducer = (state, action) => {
     if (action.type === 'SEARCH_TRACKS') {
@@ -17,27 +16,30 @@ const reducer = (state, action) => {
 };
 
 
-export class Provider extends Component{
+export const Provider = ({children}) => {
 
-    state = {
+    const [state, setState] = useState({
         track_list: [],
-        heading: 'Top 10 tracks',
-        dispatch: action => this.setState(state => reducer(state, action))
-    };
+        heading: 'top 10 tracks',
+        dispatch: action => setState(state => reducer(state, action))
+    });
 
-    async componentDidMount() {
-        const req = await fetch(`${CORS_PROXY}${API_ROOT_URL}chart.tracks.get?chart_name=top&page=1&page_size=10&country=ua&f_has_lyrics=1&apikey=${API_KEY}`);
-        const data = await req.json();
-        this.setState({
-            track_list: data.message.body.track_list
-        })
-    }
+    useEffect(() => {
+        const getCharts = async () => {
+            const req = await fetch(`${CORS_PROXY}${API_ROOT_URL}chart.tracks.get?chart_name=top&page=1&page_size=10&country=ua&f_has_lyrics=1&apikey=${API_KEY}`);
+            const data = await req.json();
+            setState({
+                ...state,
+                track_list: data.message.body.track_list
+            });
+        };
+        getCharts();
+    }, []);
 
-    render() {
-        return (
-            <Context.Provider value={this.state}>
-                {this.props.children}
-            </Context.Provider>
-        );
-    }
-}
+    return (
+        <Context.Provider value={state}>
+            {children}
+        </Context.Provider>
+    );
+};
+
